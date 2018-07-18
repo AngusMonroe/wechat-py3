@@ -60,7 +60,8 @@ class Handle(object):
                         (r.headers['content-type'] != 'application/json') or
                         (not 'graphql' in r.json())
                     ):
-                        raise Exception('Wrong link')
+                        replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
+                        return replyMsg.send()
 
                     media = r.json()['graphql']['shortcode_media']
                     if media['is_video']:
