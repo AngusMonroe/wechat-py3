@@ -100,7 +100,7 @@ class Handle(object):
                                 accessToken = Basic().get_access_token()
                                 filePath = "./img/" + name[len(name) - 1] + '.jpg'   # 请按实际填写
                                 mediaType = "image"
-                                link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
+                                link = myMedia.uplaod(accessToken, filePath, mediaType)
                     except Exception:
                         replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
                         return replyMsg.send()
