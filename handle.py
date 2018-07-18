@@ -67,7 +67,8 @@ class Handle(object):
                         return replyMsg.send()
                     try:
                         print("begin")
-                        if media['is_video']:
+                        _media = r.json()['graphql']['shortcode_media']
+                        if _media['is_video']:
                             print("video")
                             name = url.split("/")
                             print('Saved as ' + download(url,
@@ -79,7 +80,7 @@ class Handle(object):
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                         else:
                             print("image")
-                            if media.get('edge_sidecar_to_children',None):
+                            if _media.get('edge_sidecar_to_children',None):
                                 link = 'You should send a link of picture.'
                                 print(link)
                                 replyMsg = reply.TextMsg(toUser, fromUser, link)
