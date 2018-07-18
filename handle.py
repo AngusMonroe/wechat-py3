@@ -66,6 +66,7 @@ class Handle(object):
                     print("begin")
                     media = r.json()['graphql']['shortcode_media']
                     if media['is_video']:
+                        print("video")
                         print('Saved as ' + download(media['video_url'],
                                                      media['shortcode'] + '.mp4') + '!')
                         myMedia = Media()
@@ -74,7 +75,7 @@ class Handle(object):
                         mediaType = "video"
                         link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                     else:
-
+                        print("image")
                         if media.get('edge_sidecar_to_children',None):
                             link = 'You should send a link of picture.'
                             print(link)
@@ -85,6 +86,7 @@ class Handle(object):
                             #     print('Saved as ' + download(child_node['node']['display_url'],
                             #                                  child_node['node']['shortcode'] + '.jpg') + '!')
                         else:
+                            print("1")
                             print('Saved as ' + download(media['display_url'],
                                                          media['shortcode'] + '.jpg') + '!')
                             myMedia = Media()
@@ -93,9 +95,7 @@ class Handle(object):
                             filePath = media['shortcode'] + '.jpg'   #请安实际填写
                             mediaType = "video"
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID            
-                else:
-                    replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
-                    return replyMsg.send()
+
                 # output = urllib.request.urlopen(
                 #     "https://tagging.aminer.cn/query/" + input,
                 #     context=context).read().decode(encoding='utf-8')
@@ -119,8 +119,11 @@ class Handle(object):
                 # link = "<a href=\"" + url + "\">" + ans + "</a>"
                 # print(link)
                 # replyMsg = reply.TextMsg(toUser, fromUser, link)
-                replyMsg = reply.ImageMsg(toUser, fromUser, link)
-                return replyMsg.send()
+                    replyMsg = reply.ImageMsg(toUser, fromUser, link)
+                    return replyMsg.send()
+                else:
+                    replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
+                    return replyMsg.send()
             else:
                 if recMsg.MsgType == 'image':
                     print(recMsg.MediaId)
