@@ -11,6 +11,16 @@ import urllib.request
 import urllib.parse
 import re
 
+def download(url, local_filename):
+    r = requests.get(url, stream=True)
+    with open(os.getcwd() + "/" + local_filename, 'wb') as f:
+        print("opened")
+        for chunk in r.iter_content(1024):
+            if chunk:
+                f.write(chunk)
+                f.flush()
+    return local_filename
+
 class Handle(object):
     def GET(self):
             data = web.input()
@@ -31,16 +41,6 @@ class Handle(object):
             print(str(hashcode) + " " + str(signature) + " " + str(echostr))
             if hashcode == signature:
                 return echostr  # 返回echostr
-
-    def download(url, local_filename):
-        r = requests.get(url, stream=True)
-        with open(os.getcwd()+"/"+local_filename, 'wb') as f:
-            print("opened")
-            for chunk in r.iter_content(1024):
-                if chunk:
-                   f.write(chunk)
-                   f.flush()
-        return local_filename
 
     def POST(self):
         try:
