@@ -67,7 +67,6 @@ class Handle(object):
                         return replyMsg.send()
                     try:
                         print("begin")
-                        media = r.json()['graphql']['shortcode_media']
                         if media['is_video']:
                             print("video")
                             name = url.split("/")
