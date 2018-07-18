@@ -96,6 +96,7 @@ class Handle(object):
                                 print('Saved as ' + download(url,
                                                              name[len(name) - 1] + '.jpg') + '!')
                                 myMedia = media.Media()
+                                print("media done")
                                 accessToken = Basic().get_access_token()
                                 print("accessToken is: " + accessToken)
                                 filePath = name[len(name) - 1] + '.jpg'   #请安实际填写
