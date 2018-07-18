@@ -73,7 +73,7 @@ class Handle(object):
                             name = url.split("/")
                             print('Saved as ' + download(url,
                                                          name[len(name) - 1] + '.mp4') + '!')
-                            myMedia = Media()
+                            myMedia = media.Media()
                             accessToken = Basic().get_access_token()
                             filePath = name[len(name) - 1] + '.mp4'   #请安实际填写
                             mediaType = "video"
@@ -95,7 +95,7 @@ class Handle(object):
                                 print(name[len(name) - 1] + '.jpg')
                                 print('Saved as ' + download(url,
                                                              name[len(name) - 1] + '.jpg') + '!')
-                                myMedia = Media()
+                                myMedia = media.Media()
                                 accessToken = Basic().get_access_token()
                                 print("accessToken is: " + accessToken)
                                 filePath = name[len(name) - 1] + '.jpg'   #请安实际填写
