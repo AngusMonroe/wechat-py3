@@ -13,6 +13,7 @@ import re
 
 def download(url, local_filename):
     r = requests.get(url, stream=True)
+    print("downloading...")
     with open("./wechat-py3/img/" + local_filename, 'wb') as f:
         print("opened")
         for chunk in r.iter_content(1024):
@@ -73,7 +74,7 @@ class Handle(object):
                                                          name[len(name) - 1] + '.mp4') + '!')
                             myMedia = Media()
                             accessToken = Basic().get_access_token()
-                            filePath = media['shortcode'] + '.mp4'   #请安实际填写
+                            filePath = name[len(name) - 1] + '.mp4'   #请安实际填写
                             mediaType = "video"
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                         else:
@@ -90,14 +91,14 @@ class Handle(object):
                             else:
                                 print("1")
                                 name = url.split("/")
-                                print(name[len(name) - 1])
+                                print(name[len(name) - 1] + '.jpg')
                                 print('Saved as ' + download(url,
                                                              name[len(name) - 1] + '.jpg') + '!')
                                 myMedia = Media()
                                 accessToken = Basic().get_access_token()
                                 print("accessToken is: " + accessToken)
-                                filePath = media['shortcode'] + '.jpg'   #请安实际填写
-                                mediaType = "video"
+                                filePath = name[len(name) - 1] + '.jpg'   #请安实际填写
+                                mediaType = "image"
                                 link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                     except Exception:
                         replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
