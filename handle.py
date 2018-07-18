@@ -44,7 +44,7 @@ class Handle(object):
     def POST(self):
         try:
             webData = web.data()
-            print ("Handle Post webdata is ", webData)
+            # print ("Handle Post webdata is ", webData)
    #后台打日志
             recMsg = receive.parse_xml(webData)
             if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text':
@@ -63,6 +63,7 @@ class Handle(object):
                         replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
                         return replyMsg.send()
 
+                    print("begin")
                     media = r.json()['graphql']['shortcode_media']
                     if media['is_video']:
                         print('Saved as ' + download(media['video_url'],
@@ -88,7 +89,8 @@ class Handle(object):
                                                          media['shortcode'] + '.jpg') + '!')
                             myMedia = Media()
                             accessToken = Basic().get_access_token()
-                            filePath = media['shortcode'] + '.mp4'   #请安实际填写
+                            print("accessToken is: " + accessToken)
+                            filePath = media['shortcode'] + '.jpg'   #请安实际填写
                             mediaType = "video"
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID            
                 else:
