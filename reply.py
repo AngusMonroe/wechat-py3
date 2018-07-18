@@ -44,8 +44,3 @@ class ImageMsg(Msg):
         </xml>
         """
         return XmlForm.format(**self.__dict)
-
-class EventMsg(Msg):
-    def __init__(self, xmlData):
-        Event.__init__(self, xmlData)
-        self.Event = xmlData.find('Event').text  # 取Event这个参数里的内容
