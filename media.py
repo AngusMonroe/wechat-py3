@@ -2,7 +2,8 @@
 # filename: media.py
 from basic import Basic
 import urllib
-import requests
+import poster.encode
+from poster.streaminghttp import register_openers
 
 class Media(object):
     def __init__(self):
