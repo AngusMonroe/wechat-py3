@@ -70,12 +70,11 @@ class Handle(object):
                         _media = r.json()['graphql']['shortcode_media']
                         if _media['is_video']:
                             print("video")
-                            name = url.split("/")
-                            print('Saved as ' + download(url,
-                                                         name[len(name) - 1] + '.mp4') + '!')
+                            print('Saved as ' + download(_media['display_url'],
+                                         _media['shortcode'] + '.mp4') + '!')
                             myMedia = media.Media()
                             accessToken = Basic().get_access_token()
-                            filePath = name[len(name) - 1] + '.mp4'   #请安实际填写
+                            filePath = "./img/" + _media['shortcode'] + '.jpg'
                             mediaType = "video"
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                         else:
@@ -96,7 +95,7 @@ class Handle(object):
                                 myMedia = media.Media()
                                 print("media done")
                                 accessToken = Basic().get_access_token()
-                                filePath = "./img/" + media['shortcode'] + '.jpg'   # 请按实际填写
+                                filePath = "./img/" + _media['shortcode'] + '.jpg'   # 请按实际填写
                                 mediaType = "image"
                                 link = myMedia.uplaod(accessToken, filePath, mediaType)
                     except Exception:
