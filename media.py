@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # filename: media.py
 from basic import Basic
-import urllib
+from urllib import request
 import poster.encode
 from poster.streaminghttp import register_openers
 
@@ -15,8 +15,8 @@ class Media(object):
         postData, postHeaders = poster.encode.multipart_encode(param)
 
         postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s" % (accessToken, mediaType)
-        request = urllib.Request(postUrl, postData, postHeaders)
-        urlResp = urllib.urlopen(request)
+        req = request.Request(postUrl, postData, postHeaders)
+        urlResp = request.urlopen(req)
         print(urlResp.read())
 
 if __name__ == '__main__':
