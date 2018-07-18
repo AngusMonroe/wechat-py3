@@ -91,14 +91,12 @@ class Handle(object):
                                 #                                  child_node['node']['shortcode'] + '.jpg') + '!')
                             else:
                                 print("1")
-                                name = url.split("/")
-                                print(name[len(name) - 1] + '.jpg')
-                                print('Saved as ' + download(url,
-                                                             name[len(name) - 1] + '.jpg') + '!')
+                                print('Saved as ' + download(_media['display_url'],
+                                         _media['shortcode'] + '.jpg') + '!')
                                 myMedia = media.Media()
                                 print("media done")
                                 accessToken = Basic().get_access_token()
-                                filePath = "./img/" + name[len(name) - 1] + '.jpg'   # 请按实际填写
+                                filePath = "./img/" + media['shortcode'] + '.jpg'   # 请按实际填写
                                 mediaType = "image"
                                 link = myMedia.uplaod(accessToken, filePath, mediaType)
                     except Exception:
@@ -141,4 +139,4 @@ class Handle(object):
             return Argment
 
 if __name__ == "__main__":
-    download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1")
+    download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1.jpg")
