@@ -67,8 +67,9 @@ class Handle(object):
                         media = r.json()['graphql']['shortcode_media']
                         if media['is_video']:
                             print("video")
+                            name = url.split("/")
                             print('Saved as ' + download(url,
-                                                         media['shortcode'] + '.mp4') + '!')
+                                                         name[len(name) - 1] + '.mp4') + '!')
                             myMedia = Media()
                             accessToken = Basic().get_access_token()
                             filePath = media['shortcode'] + '.mp4'   #请安实际填写
@@ -87,9 +88,9 @@ class Handle(object):
                                 #                                  child_node['node']['shortcode'] + '.jpg') + '!')
                             else:
                                 print("1")
-
+                                name = url.split("/")
                                 print('Saved as ' + download(url,
-                                                             media['shortcode'] + '.jpg') + '!')
+                                                             name[len(name) - 1] + '.jpg') + '!')
                                 myMedia = Media()
                                 accessToken = Basic().get_access_token()
                                 print("accessToken is: " + accessToken)
