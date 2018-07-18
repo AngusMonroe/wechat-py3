@@ -143,3 +143,6 @@ class Handle(object):
                 return "success"
         except Exception as Argment:
             return Argment
+
+if __name__ == "__main__":
+    download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", 1)
