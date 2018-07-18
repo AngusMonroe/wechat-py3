@@ -14,7 +14,8 @@ class Media(object):
     def uplaod(self, accessToken, filePath, mediaType):
         print("uploading...")
         with open(filePath, 'rb') as openFile:
-            param = {'media': openFile}
+            txt = openFile.read()
+            param = {'media': txt}
             print(param)
             postData, postHeaders = poster.encode.multipart_encode(param)
             print(postData)
