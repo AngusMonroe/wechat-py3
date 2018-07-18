@@ -17,8 +17,9 @@ class Media(object):
         print("Open file")
         param = {'media': openFile}
         postData, postHeaders = poster.encode.multipart_encode(param)
+        print(postData)
 
-        postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s" % (accessToken, mediaType)
+        postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + accessToken + "&type=" + mediaType
         print(postUrl)
         req = request.Request(postUrl, postData, postHeaders)
         urlResp = request.urlopen(req)
