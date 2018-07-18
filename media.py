@@ -13,17 +13,17 @@ class Media(object):
     # 上传图片
     def uplaod(self, accessToken, filePath, mediaType):
         print("uploading...")
-        openFile = open(filePath, "rb")
-        param = {'media': openFile}
-        print(param)
-        postData, postHeaders = poster.encode.multipart_encode(param)
-        print(postData)
+        with open(filePath, 'rb') as openFile:
+            param = {'media': openFile}
+            print(param)
+            postData, postHeaders = poster.encode.multipart_encode(param)
+            print(postData)
 
-        postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + accessToken + "&type=" + mediaType
-        print(postUrl)
-        req = request.Request(postUrl, postData, postHeaders)
-        urlResp = request.urlopen(req)
-        print(urlResp.read())
+            postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + accessToken + "&type=" + mediaType
+            print(postUrl)
+            req = request.Request(postUrl, postData, postHeaders)
+            urlResp = request.urlopen(req)
+            print(urlResp.read())
 
 if __name__ == '__main__':
     myMedia = Media()
