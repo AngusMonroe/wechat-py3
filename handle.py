@@ -13,14 +13,18 @@ import urllib.parse
 import re
 
 def download(url, local_filename):
-    r = requests.get(url, stream=True)
+    # r = requests.get(url, stream=True)
     print("downloading...")
-    with open("./img/" + local_filename, 'wb') as f:
-        print("opened")
-        for chunk in r.iter_content(1024):
-            if chunk:
-                f.write(chunk)
-                f.flush()
+    image_request = requests.get(url)
+    image_data = image_request.content
+    with open("./img/" + local_filename, 'wb') as fp:
+        fp.write(image_data)
+    # with open("./img/" + local_filename, 'wb') as f:
+    #     print("opened")
+    #     for chunk in r.iter_content(1024):
+    #         if chunk:
+    #             f.write(chunk)
+    #             f.flush()
     return local_filename
 
 class Handle(object):
@@ -139,5 +143,3 @@ class Handle(object):
                 return "success"
         except Exception as Argment:
             return Argment
-
-

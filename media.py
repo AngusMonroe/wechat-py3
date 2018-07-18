@@ -27,6 +27,7 @@ class Media(object):
         #     urlResp = request.urlopen(req)
         #     print(urlResp.read())
         postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + accessToken + "&type=" + mediaType
+        print(postUrl)
         data = {"media": open(filePath, "rb")}
         r = requests.post(url=postUrl, files=data)
         dict = r.json()
