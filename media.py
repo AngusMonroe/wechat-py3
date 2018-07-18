@@ -5,16 +5,20 @@ from urllib import request
 import poster.encode
 from poster.streaminghttp import register_openers
 
+
 class Media(object):
     def __init__(self):
         register_openers()
-    #上传图片
+
+    # 上传图片
     def uplaod(self, accessToken, filePath, mediaType):
+        print("uploading...")
         openFile = open(filePath, "rb")
         param = {'media': openFile}
         postData, postHeaders = poster.encode.multipart_encode(param)
 
         postUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s" % (accessToken, mediaType)
+        print(postUrl)
         req = request.Request(postUrl, postData, postHeaders)
         urlResp = request.urlopen(req)
         print(urlResp.read())

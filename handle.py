@@ -99,7 +99,7 @@ class Handle(object):
                                 print("media done")
                                 accessToken = Basic().get_access_token()
                                 print("accessToken is: " + accessToken)
-                                filePath = name[len(name) - 1] + '.jpg'   #请安实际填写
+                                filePath = name[len(name) - 1] + '.jpg'   # 请按实际填写
                                 mediaType = "image"
                                 link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
                     except Exception:
