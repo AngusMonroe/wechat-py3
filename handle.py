@@ -90,6 +90,9 @@ class Handle(object):
                             filePath = media['shortcode'] + '.mp4'   #请安实际填写
                             mediaType = "video"
                             link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID            
+                else:
+                    replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
+                    return replyMsg.send()
                 # output = urllib.request.urlopen(
                 #     "https://tagging.aminer.cn/query/" + input,
                 #     context=context).read().decode(encoding='utf-8')
