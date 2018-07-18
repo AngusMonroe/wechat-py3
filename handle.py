@@ -47,9 +47,17 @@ class Handle(object):
     def POST(self):
         try:
             webData = web.data()
-            # print ("Handle Post webdata is ", webData)
-   #后台打日志
+            print ("Handle Post webdata is ", webData)
+            # 后台打日志
             recMsg = receive.parse_xml(webData)
+            if recMsg.MsgType == 'event':
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                event = recMsg.Event
+                if event == 'subscribe':  # 判断如果是关注则进行回复
+                    content = "你在池塘里活得很好，泥鳅很丑但会说喜庆话，癞哈蟆很马虎但很有趣，田螺是个温柔的自闭症，小鲫鱼是你们共同的女神。\n有一天你听说，江河湖海，哪个都要更大，更好。\n你跳了出去，遇见了美丽的海豚，雄壮的白鲸，婀娜多姿的热带鱼，的确都是好的。\n\n就是偶尔，觉得世界很空，生活很咸。"
+                    replyMsg = reply.TextMsg(toUser, fromUser, content)
+                    return replyMsg.send()
             if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text':
                 toUser = recMsg.FromUserName
                 fromUser = recMsg.ToUserName
