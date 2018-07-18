@@ -62,40 +62,43 @@ class Handle(object):
                     ):
                         replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
                         return replyMsg.send()
-
-                    print("begin")
-                    media = r.json()['graphql']['shortcode_media']
-                    if media['is_video']:
-                        print("video")
-                        print('Saved as ' + download(media['video_url'],
-                                                     media['shortcode'] + '.mp4') + '!')
-                        myMedia = Media()
-                        accessToken = Basic().get_access_token()
-                        filePath = media['shortcode'] + '.mp4'   #请安实际填写
-                        mediaType = "video"
-                        link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
-                    else:
-                        print("image")
-                        if media.get('edge_sidecar_to_children',None):
-                            link = 'You should send a link of picture.'
-                            print(link)
-                            replyMsg = reply.TextMsg(toUser, fromUser, link)
-                            return replyMsg.send()
-                            # print('Downloading mutiple images of this post')
-                            # for child_node in media['edge_sidecar_to_children']['edges']:
-                            #     print('Saved as ' + download(child_node['node']['display_url'],
-                            #                                  child_node['node']['shortcode'] + '.jpg') + '!')
-                        else:
-                            print("1")
-                            print('Saved as ' + download(media['display_url'],
-                                                         media['shortcode'] + '.jpg') + '!')
+                    try:
+                        print("begin")
+                        media = r.json()['graphql']['shortcode_media']
+                        if media['is_video']:
+                            print("video")
+                            print('Saved as ' + download(url,
+                                                         media['shortcode'] + '.mp4') + '!')
                             myMedia = Media()
                             accessToken = Basic().get_access_token()
-                            print("accessToken is: " + accessToken)
-                            filePath = media['shortcode'] + '.jpg'   #请安实际填写
+                            filePath = media['shortcode'] + '.mp4'   #请安实际填写
                             mediaType = "video"
-                            link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID            
+                            link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
+                        else:
+                            print("image")
+                            if media.get('edge_sidecar_to_children',None):
+                                link = 'You should send a link of picture.'
+                                print(link)
+                                replyMsg = reply.TextMsg(toUser, fromUser, link)
+                                return replyMsg.send()
+                                # print('Downloading mutiple images of this post')
+                                # for child_node in media['edge_sidecar_to_children']['edges']:
+                                #     print('Saved as ' + download(child_node['node']['display_url'],
+                                #                                  child_node['node']['shortcode'] + '.jpg') + '!')
+                            else:
+                                print("1")
 
+                                print('Saved as ' + download(url,
+                                                             media['shortcode'] + '.jpg') + '!')
+                                myMedia = Media()
+                                accessToken = Basic().get_access_token()
+                                print("accessToken is: " + accessToken)
+                                filePath = media['shortcode'] + '.jpg'   #请安实际填写
+                                mediaType = "video"
+                                link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
+                    except Exception:
+                        replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
+                        return replyMsg.send()
                 # output = urllib.request.urlopen(
                 #     "https://tagging.aminer.cn/query/" + input,
                 #     context=context).read().decode(encoding='utf-8')
