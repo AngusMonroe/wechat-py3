@@ -76,7 +76,7 @@ class Handle(object):
                             accessToken = Basic().get_access_token()
                             filePath = "./img/" + _media['shortcode'] + '.jpg'
                             mediaType = "video"
-                            link = myMedia.uplaod(accessToken, filePath, mediaType).MediaID
+                            link = myMedia.uplaod(accessToken, filePath, mediaType)
                         else:
                             print("image")
                             if _media.get('edge_sidecar_to_children',None):
