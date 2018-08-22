@@ -11,6 +11,9 @@ import ssl
 import urllib.request
 import urllib.parse
 import re
+import os
+from renewRemind import query
+
 
 def download(url, local_filename):
     r = requests.get(url, stream=True)
@@ -23,6 +26,42 @@ def download(url, local_filename):
                 f.flush()
     return local_filename
 
+
+def update_data(file, pattern_str, info_str):
+    file_data = ""
+    with open(file, "r", encoding="utf-8") as f:
+        for line in f:
+            word = line.split('\t')
+            # print(word)
+            if word[0] == pattern_str:
+                continue
+            file_data += line
+        file_data += pattern_str + '\t' + info_str + '\n'
+    with open(file, "w", encoding="utf-8") as f:
+        f.write(file_data)
+    # print(file_data)
+
+
+def find_episode(name):
+    url = "http://www.ttmeiju.vip/index.php/search/index.html?keyword=" + urllib.parse.quote(name)
+    # print(url)
+    try:
+        # 抓取页面
+        urlop = urllib.request.urlopen(url, timeout=100)
+        data = urlop.read().decode('utf-8')
+        # print(data)
+        data = re.sub('\s', '', data)
+        str = re.findall("<trclass=\"Scontent1\">(.*)</tr>", data)
+        # print(str)
+        if str:
+            ans = re.findall("<ahref=\"(\S*)\.html", str[0])
+            return 'http://www.ttmeiju.vip' + ans[0] + '.html'
+        else:
+            return ''
+    except Exception:
+        return ''
+
+
 class Handle(object):
     def GET(self):
             data = web.input()
@@ -32,7 +71,7 @@ class Handle(object):
             timestamp = data.timestamp
             nonce = data.nonce
             echostr = data.echostr
-            token = "wechat" #请按照公众平台官网\基本配置中信息填写
+            token = "wechat"  # 请按照公众平台官网\基本配置中信息填写
 
             list = [token, timestamp, nonce]
             list.sort()
@@ -47,7 +86,7 @@ class Handle(object):
     def POST(self):
         try:
             webData = web.data()
-            print ("Handle Post webdata is ", webData)
+            print("Handle Post webdata is ", webData)
             # 后台打日志
             recMsg = receive.parse_xml(webData)
             if recMsg.MsgType == 'event':
@@ -64,7 +103,7 @@ class Handle(object):
                 input = recMsg.Content.decode(encoding='utf-8')
                 # context = ssl._create_unverified_context()
                 txt = input.split()
-                if txt[0] == "ins":
+                if txt[0] == "ins" and len(txt) == 2:  # 保存ins图片
                     url = txt[1]
                     r = requests.get(url, params={'__a': 1})
                     if (
@@ -87,7 +126,7 @@ class Handle(object):
                             link = myMedia.uplaod(accessToken, filePath, mediaType)
                         else:
                             print("image")
-                            if _media.get('edge_sidecar_to_children',None):
+                            if _media.get('edge_sidecar_to_children', None):
                                 link = 'You should send a link of picture.'
                                 print(link)
                                 replyMsg = reply.TextMsg(toUser, fromUser, link)
@@ -109,41 +148,91 @@ class Handle(object):
                     except Exception:
                         replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
                         return replyMsg.send()
-                # output = urllib.request.urlopen(
-                #     "https://tagging.aminer.cn/query/" + input,
-                #     context=context).read().decode(encoding='utf-8')
-                # print(output)
-                # dic = re.findall("\"([^\"]*)\": \"([^\"]*)\"", output)
-                # url = "https://www.aminer.cn/search?"
-                # ans = ""
-                # for info in dic:
-                #     if info[1] == "org":
-                #         url += "o=" + urllib.parse.quote(info[0]) + "&"
-                #         ans += "来自" + info[0]
-                # for info in dic:
-                #     if info[1] == "name":
-                #         url += "n=" + urllib.parse.quote(info[0]) + "&"
-                #         ans += "名为" + info[0] + "的学者"
-                # for info in dic:
-                #     if info[1] == "item":
-                #         url += "k=" + urllib.parse.quote(info[0]) + "&"
-                #         ans += "的" + info[0]
-                # url = url[:-1]
-                # link = "<a href=\"" + url + "\">" + ans + "</a>"
-                # print(link)
-                # replyMsg = reply.TextMsg(toUser, fromUser, link)
+
                     replyMsg = reply.ImageMsg(toUser, fromUser, link)
                     return replyMsg.send()
+
+                if txt[0] == 'remind':  # 追剧助手
+                    try:
+                        if len(txt) == 2:
+                            if txt[1] == 'unsubscribe':
+                                update_data('data/user.dat', fromUser, txt[1] + '\t0')
+                                replyMsg = reply.TextMsg(toUser, fromUser, '服务已关闭')
+                                return replyMsg.send()
+                            elif txt[1] == 'query':
+                                query(fromUser)
+                                replyMsg = reply.TextMsg(toUser, fromUser, '查询完毕')
+                                return replyMsg.send()
+                            elif txt[1] == 'list':
+                                if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                                    replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
+                                    return replyMsg.send()
+                                with open('data/catalogue/' + fromUser + '.txt', "r", encoding="utf-8") as f:
+                                    ans = ''
+                                    for line in f:
+                                        word = line.split('\t')
+                                        # print(word)
+                                        if word[-1] == '1\n':
+                                            ans += word[0] + '\n'
+                                    if ans == '':
+                                        ans = '您还未进行订阅'
+                                replyMsg = reply.TextMsg(toUser, fromUser, ans)
+                                return replyMsg.send()
+
+                            update_data('data/user.dat', fromUser, txt[1] + '\t1')
+                            user_catalogue = open('data/catalogue/' + fromUser + '.txt', 'w', encoding='utf8')
+                            user_record = open('data/record/' + fromUser + '.txt', 'w', encoding='utf8')
+                            user_catalogue.close()
+                            user_record.close()
+                            replyMsg = reply.TextMsg(toUser, fromUser, "您的更新提醒将于每天18:00发送至" + txt[1])
+                            return replyMsg.send()
+
+                        elif txt[1] == 'add' and len(txt) >= 3:
+                            if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                                replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
+                                return replyMsg.send()
+                            keyword = ''
+                            for i in range(2, len(txt)):
+                                keyword += txt[i] + ' '
+                            aim_url = find_episode(keyword)
+                            if not aim_url:
+                                replyMsg = reply.TextMsg(toUser, fromUser, '未找到您所需的资源')
+                                return replyMsg.send()
+                            update_data('data/catalogue/' + fromUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t1')
+                            replyMsg = reply.TextMsg(toUser, fromUser, keyword + '的资源地址位于' + aim_url)
+                            return replyMsg.send()
+
+                        elif txt[1] == 'delete' and len(txt) >= 3:
+                            if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                                replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
+                                return replyMsg.send()
+                            keyword = ''
+                            for i in range(2, len(txt)):
+                                keyword += txt[i] + ' '
+                            aim_url = find_episode(keyword)
+                            update_data('data/catalogue/' + fromUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t0')
+                            replyMsg = reply.TextMsg(toUser, fromUser, keyword + '退订成功')
+                            return replyMsg.send()
+
+                        else:
+                            raise NotImplemented
+
+                    except Exception:
+                        replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
+                        return replyMsg.send()
+
                 else:
                     replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
                     return replyMsg.send()
             else:
                 if recMsg.MsgType == 'image':
                     print(recMsg.MediaId)
-                print ("暂且不处理")
+                print("暂且不处理")
                 return "success"
         except Exception as Argment:
             return Argment
 
 if __name__ == "__main__":
-    download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1.jpg")
+    # download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1.jpg")
+    # update_data('data/user.dat', '2', '2382971319@qq.com')
+    print(find_episode('绝命毒师'))

@@ -1,0 +1,11 @@
+进击的巨人第三季  http://www.acgneta.com/animes/4305.html  <p>话数：(\d*)</p>  utf8
+命运石之门0  http://www.acgneta.com/animes/4289.html  <p>话数：(\d*)</p>  utf8
+工作细胞  http://www.acgneta.com/animes/4332.html  <p>话数：(\d*)</p>  utf8
+Better Call Saul  http://www.ttmeiju.vip/meiju/Better.Call.Saul.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+The Expanse  http://www.ttmeiju.vip/meiju/The.Expanse.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+Young Sheldon  http://www.ttmeiju.vip/meiju/Young.Sheldon.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+The End of The Fucking World  http://www.ttmeiju.vip/meiju/The.End.of.The.Fucking.World.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+The Big Bang Theory  http://www.ttmeiju.vip/meiju/The.Big.Bang.Theory.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+Game of Thrones  http://www.ttmeiju.vip/meiju/Game.of.Thrones.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+House of Cards  http://www.ttmeiju.vip/meiju/House.of.Cards.html  <font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>  utf8
+晓说  http://www.iqiyi.com/lib/m_200093114.html?src=searchl  class="title-update-num">([^<"]*)</a>  utf8
