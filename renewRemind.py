@@ -11,7 +11,7 @@ import urllib.parse
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
-import schedule
+# import schedule
 import time
 
 
@@ -165,7 +165,7 @@ def job(id, email):
 
     for line in catalogue_file.readlines():
         item = line.split('\t')
-        # print(item)
+        print(item)
         try:
             if item[-1] == '1\n':
                 RenewCheck(key=item[0], src_url=item[1], pattern_str=item[2], charset=item[3])
@@ -186,6 +186,7 @@ def work():
     user_file = open('data/user.dat', 'r', encoding='utf8')
     for line in user_file.readlines():
         word = line.split('\t')
+        print(word)
         if len(word) == 3 and word[-1] == '1\n':
             job(id=word[0], email=word[1])
     print('done!')
@@ -201,7 +202,7 @@ def query(id):
     print('done!')
 
 
-schedule.every(2).minutes.do(work)
+# schedule.every(2).minutes.do(work)
 # schedule.every().hour.do(work)
 # schedule.every().day.at("18:00").do(work)
 # schedule.every(5).to(10).days.do(work)
@@ -209,11 +210,15 @@ schedule.every(2).minutes.do(work)
 # schedule.every().wednesday.at("13:15").do(work)
 
 
+
 if __name__ == '__main__':
+    job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', '2382971319@qq.com')
+    # job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', 'm13761635326@163.com')
     # work()
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # print('this is us\thttp://www.ttmeiju.vip/meiju/This.Is.Us.html\t<font color="#339999">内嵌双语字幕</font>\\s*</td>\\s*<td>([^>]*)</td>\tutf8\t1\n')
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
     #     '''
     #     try:
     #         main()

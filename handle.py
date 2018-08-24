@@ -156,18 +156,18 @@ class Handle(object):
                     try:
                         if len(txt) == 2:
                             if txt[1] == 'unsubscribe':
-                                update_data('data/user.dat', fromUser, txt[1] + '\t0')
+                                update_data('data/user.dat', toUser, txt[1] + '\t0')
                                 replyMsg = reply.TextMsg(toUser, fromUser, '服务已关闭')
                                 return replyMsg.send()
                             elif txt[1] == 'query':
-                                query(fromUser)
+                                query(toUser)
                                 replyMsg = reply.TextMsg(toUser, fromUser, '查询完毕')
                                 return replyMsg.send()
                             elif txt[1] == 'list':
-                                if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                                if not os.path.exists('data/catalogue/' + toUser + '.txt'):
                                     replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
                                     return replyMsg.send()
-                                with open('data/catalogue/' + fromUser + '.txt', "r", encoding="utf-8") as f:
+                                with open('data/catalogue/' + toUser + '.txt', "r", encoding="utf-8") as f:
                                     ans = ''
                                     for line in f:
                                         word = line.split('\t')
@@ -179,16 +179,16 @@ class Handle(object):
                                 replyMsg = reply.TextMsg(toUser, fromUser, ans)
                                 return replyMsg.send()
 
-                            update_data('data/user.dat', fromUser, txt[1] + '\t1')
-                            user_catalogue = open('data/catalogue/' + fromUser + '.txt', 'w', encoding='utf8')
-                            user_record = open('data/record/' + fromUser + '.txt', 'w', encoding='utf8')
+                            update_data('data/user.dat', toUser, txt[1] + '\t1')
+                            user_catalogue = open('data/catalogue/' + toUser + '.txt', 'w', encoding='utf8')
+                            user_record = open('data/record/' + toUser + '.txt', 'w', encoding='utf8')
                             user_catalogue.close()
                             user_record.close()
                             replyMsg = reply.TextMsg(toUser, fromUser, "您的更新提醒将于每天18:00发送至" + txt[1])
                             return replyMsg.send()
 
                         elif txt[1] == 'add' and len(txt) >= 3:
-                            if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                            if not os.path.exists('data/catalogue/' + toUser + '.txt'):
                                 replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
                                 return replyMsg.send()
                             keyword = ''
@@ -198,19 +198,19 @@ class Handle(object):
                             if not aim_url:
                                 replyMsg = reply.TextMsg(toUser, fromUser, '未找到您所需的资源')
                                 return replyMsg.send()
-                            update_data('data/catalogue/' + fromUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t1')
+                            update_data('data/catalogue/' + toUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t1')
                             replyMsg = reply.TextMsg(toUser, fromUser, keyword + '的资源地址位于' + aim_url)
                             return replyMsg.send()
 
                         elif txt[1] == 'delete' and len(txt) >= 3:
-                            if not os.path.exists('data/catalogue/' + fromUser + '.txt'):
+                            if not os.path.exists('data/catalogue/' + toUser + '.txt'):
                                 replyMsg = reply.TextMsg(toUser, fromUser, "请先提供接收提醒的邮箱")
                                 return replyMsg.send()
                             keyword = ''
                             for i in range(2, len(txt)):
                                 keyword += txt[i] + ' '
                             aim_url = find_episode(keyword)
-                            update_data('data/catalogue/' + fromUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t0')
+                            update_data('data/catalogue/' + toUser + '.txt', keyword, aim_url + '\t<font color="#339999">内嵌双语字幕</font>\s*</td>\s*<td>([^>]*)</td>\tutf8\t0')
                             replyMsg = reply.TextMsg(toUser, fromUser, keyword + '退订成功')
                             return replyMsg.send()
 
@@ -235,4 +235,4 @@ class Handle(object):
 if __name__ == "__main__":
     # download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1.jpg")
     # update_data('data/user.dat', '2', '2382971319@qq.com')
-    print(find_episode('绝命毒师'))
+    print(find_episode('黑镜'))
