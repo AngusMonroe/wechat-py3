@@ -108,3 +108,4 @@ venv.bak/
 *.bak
 *.swp
 data/conf.ini
+data/*

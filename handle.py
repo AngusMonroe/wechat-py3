@@ -106,12 +106,7 @@ class Handle(object):
                 if txt[0] == "ins" and len(txt) == 2:  # 保存ins图片
                     url = txt[1]
                     r = requests.get(url, params={'__a': 1})
-                    if (
-                        (r.headers['content-type'] != 'application/json') or
-                        (not 'graphql' in r.json())
-                    ):
-                        replyMsg = reply.TextMsg(toUser, fromUser, "Wrong link")
-                        return replyMsg.send()
+
                     try:
                         print("begin")
                         _media = r.json()['graphql']['shortcode_media']
@@ -222,8 +217,9 @@ class Handle(object):
                         return replyMsg.send()
 
                 else:
-                    replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
-                    return replyMsg.send()
+                    # replyMsg = reply.TextMsg(toUser, fromUser, "您的输入有误")
+                    # return replyMsg.send()
+                    return "success"
             else:
                 if recMsg.MsgType == 'image':
                     print(recMsg.MediaId)

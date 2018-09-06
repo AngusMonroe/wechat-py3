@@ -117,10 +117,15 @@ def RenewCheck(key, src_url, pattern_str, charset):
 
     # 判断是否有更新
     cur = title
+    if key[-1] == ' ':
+        key = key[:-1]
     if key in renew_dict:  # 判断之前有无记录
         last = renew_dict[key]
     else:
         last = None
+    # print(last)
+    # print(key)
+    # print(renew_dict)
     if items and cur != last or last == None:
         # 如果有更新，发送邮件提示
         isRenew = True
@@ -172,6 +177,7 @@ def job(id, email):
         except Exception as e:
             print('[ERROR]:%s' % e)
             continue
+    catalogue_file.close()
 
     if isRenew:
         send_email(subject + '有更新！', content)
@@ -189,6 +195,7 @@ def work():
         print(word)
         if len(word) == 3 and word[-1] == '1\n':
             job(id=word[0], email=word[1])
+    user_file.close()
     print('done!')
 
 
@@ -199,6 +206,7 @@ def query(id):
         word = line.split('\t')
         if word[0] == id:
             job(id=word[0], email=word[1])
+    user_file.close()
     print('done!')
 
 
@@ -212,6 +220,7 @@ def query(id):
 
 
 if __name__ == '__main__':
+    # job('oYwh408660opW2RQ0MaNK60XZLC0', '2382971319@qq.com')
     job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', '2382971319@qq.com')
     # job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', 'm13761635326@163.com')
     # work()
