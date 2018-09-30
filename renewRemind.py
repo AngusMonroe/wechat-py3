@@ -13,6 +13,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 # import schedule
 import time
+import datetime
 
 
 timeout = 30                       # 超时时间
@@ -181,6 +182,11 @@ def job(id, email):
 
     if isRenew:
         send_email(subject + '有更新！', content)
+        t = datetime.datetime.now().strftime('%Y-%m-%d')
+        send_log = open('send.log', 'a', encoding='utf8')
+        send_log.write(t + ' ' + aim_email + '\n' + content)
+        send_log.close()
+
         content = ''
         subject = '【更新提示】'  # email 中的主题
         isRenew = False  # 是否有更新

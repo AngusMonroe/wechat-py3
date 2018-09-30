@@ -231,4 +231,4 @@ class Handle(object):
 if __name__ == "__main__":
     # download("https://www.instagram.com/p/BlVTBLfApgU/?utm_source=ig_share_sheet&igshid=1jucjru4u1o6o", "1.jpg")
     # update_data('data/user.dat', '2', '2382971319@qq.com')
-    print(find_episode('黑镜'))
+    print(find_episode('黑镜 '))
