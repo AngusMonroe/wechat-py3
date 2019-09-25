@@ -218,7 +218,7 @@ def query(id):
 
 # schedule.every(2).minutes.do(work)
 # schedule.every().hour.do(work)
-# schedule.every().day.at("18:00").do(work)
+schedule.every().day.at("18:00").do(work)
 # schedule.every(5).to(10).days.do(work)
 # schedule.every().monday.do(work)
 # schedule.every().wednesday.at("13:15").do(work)
@@ -227,9 +227,9 @@ def query(id):
 
 if __name__ == '__main__':
     # job('oYwh408660opW2RQ0MaNK60XZLC0', '2382971319@qq.com')
-    job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', '2382971319@qq.com')
+    # job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', '2382971319@qq.com')
     # job('oYwh4086nDj-G_VwHIMXhDA9e8Mc', 'm13761635326@163.com')
-    # work()
+    work()
     # print('this is us\thttp://www.ttmeiju.vip/meiju/This.Is.Us.html\t<font color="#339999">内嵌双语字幕</font>\\s*</td>\\s*<td>([^>]*)</td>\tutf8\t1\n')
     # while True:
     #     schedule.run_pending()
